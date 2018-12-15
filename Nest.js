@@ -4,6 +4,6 @@ BOOT({
 	CONFIG : {
 		defaultBoxName : 'Nest',
 		isDevMode : true,
-		webServerPort : 1215
+		webServerPort : 1216
 	}
 });
