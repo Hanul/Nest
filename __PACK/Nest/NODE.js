@@ -1,0 +1,1 @@
+Nest.MAIN=METHOD({run:()=>{DSide.Node({tokenName:"egg",socketServerPort:8230,webSocketServerPort:8231,version:0,accountAddress:CONFIG.Nest.accountAddress,dataStructures:{Comment:{type:"TargetStore",structure:{target:{notEmpty:!0,size:{max:128}},content:{notEmpty:!0,size:{max:1e3}}}}},ips:READ_FILE({path:"IP",isSync:!0}).toString().replace(/\r/g,"").split("\n")})}});

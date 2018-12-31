@@ -2,52 +2,36 @@ Nest.MAIN = METHOD({
 
 	run : () => {
 		
-		// 브라우저와 연결되는 기능들
-		
-		WEB_SOCKET_SERVER(WEB_SERVER(8125), (clientInfo, on, off, send, disconnect) => {
-	
-			let roles = [];
-	
-			console.log('CONNECTED!', clientInfo);
-	
-			on('message', (data, ret) => {
-	
-				console.log('SERVER!', data, CPU_CLUSTERING.getWorkerId());
-	
-				ret('Thanks!');
-			});
-	
-			send({
-				methodName : 'message',
-				data : {
-					msg : 'message from server. ' + CPU_CLUSTERING.getWorkerId()
+		DSide.Node({
+			tokenName : 'egg',
+			socketServerPort : 8230,
+			webSocketServerPort : 8231,
+			version : 0,
+			accountAddress : CONFIG.Nest.accountAddress,
+			dataStructures : {
+				
+				Comment : {
+					type : 'TargetStore',
+					structure : {
+						target : {
+							notEmpty : true,
+							size : {
+								max : 128
+							}
+						},
+						content : {
+							notEmpty : true,
+							size : {
+								max : 1000
+							}
+						}
+					}
 				}
-			}, (retMsg) => {
-	
-				console.log('RETURN MESSAGE:', retMsg);
-			});
-	
-			on('login', (data) => {
-				if (data.username === 'test' && data.password === '1234') {
-					roles.push('USER');
-				}
-			});
-	
-			on('checkRole', (role) => {
-	
-				if (CHECK_IS_IN({
-					array : roles,
-					value : role
-				}) === true) {
-	
-					console.log('SINGED!', role, CPU_CLUSTERING.getWorkerId());
-				}
-			});
-	
-			// when disconnected
-			on('__DISCONNECTED', () => {
-				console.log('DISCONNECTED!', CPU_CLUSTERING.getWorkerId());
-			});
+			},
+			ips : READ_FILE({
+				path : 'IP',
+				isSync : true
+			}).toString().replace(/\r/g, '').split('\n')
 		});
 	}
 });
